@@ -1,9 +1,9 @@
-function App  ()  {
-  return (
-    <>
-      App
-    </>
-  )
-}
+import { Button } from "@/components/ui/button";
 
-export default App
+export default function Home() {
+  return (
+    <div>
+      <Button>Click me</Button>
+    </div>
+  );
+}
