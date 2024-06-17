@@ -6,7 +6,7 @@ function App() {
   return (
     <div>
       <Header />
-      <div className="mx-24 my-4 flex">
+      <div className="flex bg-muted/50 px-20 py-4">
         <Sidebar />
         <JobDetails />
       </div>
