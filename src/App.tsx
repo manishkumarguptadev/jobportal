@@ -1,9 +1,17 @@
-import { Button } from "@/components/ui/button";
+import Header from "./components/Header";
+import JobDetails from "./components/JobDetails";
+import Sidebar from "./components/Sidebar";
 
-export default function Home() {
+function App() {
   return (
     <div>
-      <Button>Click me</Button>
+      <Header />
+      <div className="mx-24 my-4 flex">
+        <Sidebar />
+        <JobDetails />
+      </div>
     </div>
   );
 }
+
+export default App;
