@@ -1,9 +1,16 @@
+import JobItem from "@/types/JobItem";
 import JobList from "./JobList";
 
-function Sidebar() {
+type Props = {
+  jobItems: JobItem[];
+  isLoading: boolean;
+  error: string;
+};
+
+function Sidebar({ jobItems, isLoading, error }: Props) {
   return (
     <div className="ml-8 w-[30vw]">
-      <JobList />
+      <JobList jobItems={jobItems} isLoading={isLoading} error={error} />
     </div>
   );
 }
