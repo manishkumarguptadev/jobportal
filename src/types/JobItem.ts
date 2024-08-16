@@ -1,5 +1,5 @@
 type JobItem = {
-  id: number;
+  id: string;
   badgeLetters: string;
   title: string;
   company: string;
