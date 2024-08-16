@@ -1,45 +1,19 @@
+import { useState } from "react";
 import Header from "./components/Header";
 import JobDetails from "./components/JobDetails";
 import Sidebar from "./components/Sidebar";
-import { useEffect, useState } from "react";
-import useJobItems from "./hooks/useJobItems";
 import useActiveId from "./hooks/useActiveId";
-import axios, { AxiosError, CanceledError } from "axios";
-import JobItemExpanded from "./types/JobItemExpanded";
+import useJobItem from "./hooks/useJobItem";
+import useJobItems from "./hooks/useJobItems";
 
 function App() {
   const [searchText, setSearchText] = useState("");
-  const [jobItems, isLoadingJobItems, errorsJobItems] = useJobItems(searchText);
-  const [jobItem, setJobItem] = useState<JobItemExpanded | null>(null);
+  const [jobItems, isLoadingJobItems, errorJobItems] = useJobItems(searchText);
+
   const activeId = useActiveId();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [jobItem, setJobItem, isLoadingJobItem, errorJobItem] =
+    useJobItem(activeId);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    if (!activeId) return;
-    const fetchJobItem = async () => {
-      try {
-        setIsLoading(true);
-        const res = await axios.get<JobItemExpanded>(
-          `https://testapis-nu.vercel.app/api/jobitems/${activeId}`,
-          { signal: controller.signal },
-        );
-        setIsLoading(false);
-        setJobItem(res.data);
-      } catch (error) {
-        if (error instanceof CanceledError) return;
-        setIsLoading(false);
-        if (error instanceof AxiosError) {
-          const message = error.response?.data.message || "Server Unavailable";
-          setError(message);
-        }
-      }
-    };
-
-    fetchJobItem();
-    return () => controller.abort();
-  }, [activeId]);
   return (
     <div className="bg-gray-200">
       <Header
@@ -51,9 +25,13 @@ function App() {
         <Sidebar
           jobItems={jobItems}
           isLoading={isLoadingJobItems}
-          error={errorsJobItems}
+          error={errorJobItems}
         />
-        <JobDetails jobItem={jobItem} isLoading={isLoading} error={error} />
+        <JobDetails
+          jobItem={jobItem}
+          isLoading={isLoadingJobItem}
+          error={errorJobItem}
+        />
       </div>
     </div>
   );
