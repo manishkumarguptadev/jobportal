@@ -1,9 +1,16 @@
-import { Button } from "@/components/ui/button";
+import BackgroundPattern from "./components/BackgroundPattern";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 
 export default function App() {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <Button>Click me</Button>
-    </div>
+    <>
+      <BackgroundPattern />
+
+      <div className="mx-auto flex min-h-screen max-w-[1050px] flex-col px-4">
+        <Header />
+        <Footer />
+      </div>
+    </>
   );
 }
