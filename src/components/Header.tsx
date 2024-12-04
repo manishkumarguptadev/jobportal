@@ -1,10 +1,14 @@
 import SearchForm from "./SearchForm";
 
-function Header() {
+type Props = {
+  searchText: string;
+  setSearchText: React.Dispatch<React.SetStateAction<string>>;
+};
+function Header({ searchText, setSearchText }: Props) {
   return (
     <div className="grid h-24 grid-cols-3">
       <div></div>
-      <SearchForm />
+      <SearchForm searchText={searchText} setSearchText={setSearchText} />
       <div></div>
     </div>
   );

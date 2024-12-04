@@ -1,14 +1,20 @@
 import ContentBlock from "./components/ContentBlock";
 import JobDetails from "./components/JobDetails";
 import JobList from "./components/JobList";
+import { JobItem } from "./types";
+type Props = {
+  jobItems: JobItem[];
+  isLoading: boolean;
+  error: string;
+};
 
-function MainContent() {
+function MainContent({ jobItems, isLoading, error }: Props) {
   return (
     <main>
       <div className="grid grid-rows-[500px_500px] gap-4 md:h-[420px] md:grid-cols-3 md:grid-rows-[45px_1fr]">
         <div className="relative md:col-span-1 md:col-start-1 md:row-span-full md:row-start-1">
           <ContentBlock>
-            <JobList />
+            <JobList jobItems={jobItems} isLoading={isLoading} error={error} />
           </ContentBlock>
         </div>
 
