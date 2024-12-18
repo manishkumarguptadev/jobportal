@@ -1,5 +1,6 @@
 import { JobItem } from "@/types";
 import Spinner from "./Spinner";
+import JobListItem from "./JobListItem";
 
 type Props = {
   jobItems: JobItem[];
@@ -20,7 +21,7 @@ function JobList({ jobItems, isLoading, error }: Props) {
       ) : (
         <ul>
           {jobItems.map((jobItem) => (
-            <li key={jobItem.id}>{jobItem.title}</li>
+            <JobListItem key={jobItem.id} jobItem={jobItem}></JobListItem>
           ))}
         </ul>
       )}
