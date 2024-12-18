@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BackgroundPattern from "./components/BackgroundPattern";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -8,6 +8,18 @@ export default function App() {
   const [searchText, setSearchText] = useState("");
 
   const [jobItems, isLoading, error] = useJobItems(searchText);
+  const [activeId, setActiveId] = useState<string | null>(null);
+  useEffect(() => {
+    const handleHashChange = () => {
+      const id = window.location.hash.slice(1);
+      setActiveId(id);
+    };
+    handleHashChange();
+    window.addEventListener("hashchange", handleHashChange);
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
   return (
     <>
       <BackgroundPattern />
