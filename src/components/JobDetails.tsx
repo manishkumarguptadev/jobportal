@@ -1,37 +1,32 @@
 import { FaBookmark, FaClock, FaMoneyBill } from "react-icons/fa";
 import { FaLocationDot } from "react-icons/fa6";
 import { Button } from "./ui/button";
+import { JobItemExpanded } from "@/types";
+import Spinner from "./Spinner";
+type Props = {
+  jobItem: JobItemExpanded | null;
+  isLoadingJobItem: boolean;
+  errorJobItem: string;
+};
 
-function JobDetails() {
-  const jobItem = {
-    id: "clxgjujzt0000zvlrapxl86nh",
-    description:
-      "As a full-stack developer, you will be responsible for designing, developing and deploying full-stack solutions in support of LakeOperations' core business.",
-    qualifications: [
-      "JavaScript",
-      "CSS",
-      "React",
-      "HTML",
-      "Node.js",
-      "Responsive web design",
-      "MongoDB/NoSQL",
-    ],
-    reviews: [
-      "Best place I've ever worked. I learned a lot.",
-      "I liked that we could work remotely.",
-      "Very nice benefits for online learning.",
-      "Great coworkers, opportunities.",
-    ],
-    title: "Full-Stack Developer",
-    badgeLetters: "LO",
-    company: "LakeOperations",
-    duration: "Full-Time",
-    salary: "$80,000+",
-    location: "Global",
-    relevanceScore: 99,
-    daysAgo: 1,
-    companyURL: "https://fictionallakeoperationswebsite.com",
-  };
+function JobDetails({ jobItem, isLoadingJobItem, errorJobItem }: Props) {
+  if (isLoadingJobItem) {
+    return (
+      <div className="flex h-[380px] items-center justify-center">
+        <Spinner />
+      </div>
+    );
+  }
+  if (errorJobItem) {
+    return (
+      <div className="flex h-full items-center justify-center text-destructive">
+        {errorJobItem}
+      </div>
+    );
+  }
+  if (!jobItem) {
+    return <div />;
+  }
   return (
     <section className="relative overflow-auto p-8">
       <div>

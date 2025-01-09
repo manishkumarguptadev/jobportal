@@ -2,17 +2,25 @@ import { Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRef } from "react";
+import { JobItemExpanded } from "@/types";
 
 type Props = {
   searchText: string;
   setSearchText: React.Dispatch<React.SetStateAction<string>>;
+  setJobItem: React.Dispatch<React.SetStateAction<JobItemExpanded | null>>;
 };
-function SearchForm({ searchText, setSearchText }: Props) {
+function SearchForm({ searchText, setSearchText, setJobItem }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault();
+        history.pushState(
+          "",
+          document.title,
+          window.location.pathname + window.location.search,
+        );
+        setJobItem(null);
         if (inputRef.current) {
           setSearchText(inputRef.current?.value);
         }
