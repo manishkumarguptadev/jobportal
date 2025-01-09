@@ -1,46 +1,19 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import BackgroundPattern from "./components/BackgroundPattern";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import MainContent from "./MainContent";
 import useJobItems from "./hooks/useJobItems";
 import useActiveId from "./hooks/useActiveId";
-import axios, { AxiosError, CanceledError } from "axios";
-import { JobItemExpanded } from "./types";
+import useJobItem from "./hooks/useJobItem";
 export default function App() {
   const [searchText, setSearchText] = useState("");
 
   const [jobItems, isLoading, error] = useJobItems(searchText);
-  const [jobItem, setJobItem] = useState<JobItemExpanded | null>(null);
   const activeId = useActiveId();
-  const [isLoadingJobItem, setIsLoadingJobItem] = useState(false);
-  const [errorJobItem, setErrorJobItem] = useState("");
+  const [jobItem, setJobItem, isLoadingJobItem, errorJobItem] =
+    useJobItem(activeId);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    if (!activeId) return;
-    const fetchJobItem = async () => {
-      try {
-        setIsLoadingJobItem(true);
-        const res = await axios.get<JobItemExpanded>(
-          `https://testapis-nu.vercel.app/api/jobitems/${activeId}`,
-          { signal: controller.signal },
-        );
-        setIsLoadingJobItem(false);
-        setJobItem(res.data);
-      } catch (error) {
-        if (error instanceof CanceledError) return;
-        setIsLoadingJobItem(false);
-        if (error instanceof AxiosError) {
-          const message = error.response?.data.message || "Server Unavailable";
-          setErrorJobItem(message);
-        }
-      }
-    };
-
-    fetchJobItem();
-    return () => controller.abort();
-  }, [activeId]);
   return (
     <>
       <BackgroundPattern />
