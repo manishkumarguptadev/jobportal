@@ -2,6 +2,7 @@ import { JobItem } from "@/types";
 import Spinner from "./Spinner";
 import JobListItem from "./JobListItem";
 import useActiveId from "@/hooks/useActiveId";
+import ResultsCount from "./ResultsCount";
 
 type Props = {
   jobItems: JobItem[];
@@ -9,6 +10,7 @@ type Props = {
   error: string;
 };
 function JobList({ jobItems, isLoading, error }: Props) {
+  const resultsCount = jobItems.length;
   const activeId = useActiveId();
   return (
     <>
@@ -21,15 +23,20 @@ function JobList({ jobItems, isLoading, error }: Props) {
           {error}
         </div>
       ) : (
-        <ul>
-          {jobItems.map((jobItem) => (
-            <JobListItem
-              key={jobItem.id}
-              jobItem={jobItem}
-              isActive={jobItem.id === activeId}
-            ></JobListItem>
-          ))}
-        </ul>
+        <div>
+          <div className="flex h-9 items-center gap-1 border-b p-4">
+            <ResultsCount resultsCount={resultsCount} />
+          </div>
+          <ul>
+            {jobItems.map((jobItem) => (
+              <JobListItem
+                key={jobItem.id}
+                jobItem={jobItem}
+                isActive={jobItem.id === activeId}
+              ></JobListItem>
+            ))}
+          </ul>
+        </div>
       )}
     </>
   );
