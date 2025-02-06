@@ -1,6 +1,7 @@
 import { JobItem } from "@/types";
 import Spinner from "./Spinner";
 import JobListItem from "./JobListItem";
+import useActiveId from "@/hooks/useActiveId";
 
 type Props = {
   jobItems: JobItem[];
@@ -8,6 +9,7 @@ type Props = {
   error: string;
 };
 function JobList({ jobItems, isLoading, error }: Props) {
+  const activeId = useActiveId();
   return (
     <>
       {isLoading ? (
@@ -21,7 +23,11 @@ function JobList({ jobItems, isLoading, error }: Props) {
       ) : (
         <ul>
           {jobItems.map((jobItem) => (
-            <JobListItem key={jobItem.id} jobItem={jobItem}></JobListItem>
+            <JobListItem
+              key={jobItem.id}
+              jobItem={jobItem}
+              isActive={jobItem.id === activeId}
+            ></JobListItem>
           ))}
         </ul>
       )}
